@@ -9,11 +9,15 @@ ifeq ($(WITH_AFL_PERSISTENT_RECORD),yes)
   override CFLAGS += -DAFL_PERSISTENT_RECORD
 endif
 
+ifdef AFL_PATH
+  override CFLAGS += -I$(AFL_PATH)/include
+endif
+
 libml-mutator.so:ml-mutator.o
 	$(CC) $(CFLAGS) -shared  -o libml-mutator.so ml-mutator.o 
 
 %.o: %.c $(DEPS)
-	$(CC) $(CFLAGS) -c -o $@ $< -fPIC -Wall -D_FORTIFY_SOURCE=2 -I$(AFL_PATH)/include
+	$(CC) $(CFLAGS) -c -o $@ $< -fPIC -Wall -D_FORTIFY_SOURCE=2 -I/usr/share/afl/include
 
 
 clean:
