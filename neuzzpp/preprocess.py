@@ -101,7 +101,10 @@ def create_path_coverage_bitmap(
             out = subprocess.check_output(command)
 
             for line in out.splitlines():
-                edge = int(line.split(b":")[0])
+                try:
+                    edge = int(line.split(b":")[0])
+                except ValueError: # Ignore afl-showmap warning
+                    continue
                 edges_curr_seed.add(edge)
             raw_bitmap[seed] = edges_curr_seed
         except subprocess.CalledProcessError as err:
