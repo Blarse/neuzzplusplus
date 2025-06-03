@@ -17,7 +17,7 @@ libml-mutator.so:ml-mutator.o
 	$(CC) $(CFLAGS) -shared  -o libml-mutator.so ml-mutator.o 
 
 %.o: %.c $(DEPS)
-	$(CC) $(CFLAGS) -c -o $@ $< -fPIC -Wall -D_FORTIFY_SOURCE=2 -I/usr/share/afl/include
+	$(CC) $(CFLAGS) -c -o $@ $< -fPIC -Wall -D_FORTIFY_SOURCE=2 -isystem /usr/share/afl/include
 
 
 clean:
