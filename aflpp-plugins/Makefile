@@ -3,6 +3,11 @@
 
 all:libml-mutator.so
 
+WITH_AFL_PERSISTENT_RECORD := $(shell afl-fuzz -h | grep -q '^Compiled with AFL_PERSISTENT_RECORD support.$$' && echo yes || echo no)
+
+ifeq ($(WITH_AFL_PERSISTENT_RECORD),yes)
+  override CFLAGS += -DAFL_PERSISTENT_RECORD
+endif
 
 libml-mutator.so:ml-mutator.o
 	$(CC) $(CFLAGS) -shared  -o libml-mutator.so ml-mutator.o 
