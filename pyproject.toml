@@ -7,17 +7,19 @@ license = "Robert Bosch GmbH"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.8,<3.10"
-matplotlib = "^3.4.2"
-seaborn = "^0.11.1"
-tensorflow = "^2.5.0"
-tensorflow-addons = "^0.14.0"
-pandas = "^1.3.5"
-scikit-learn = "^1.0.2"
-torch = "1.4.0"
-pygdbmi = "^0.10.0"
+python = ">=3.9"
+tensorflow = "^2.19.0"
+scikit-learn = "^1.6.1"
+pandas = "^2.2.3"
+seaborn = "^0.13.2"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.cuda]
+optional = true
+
+[tool.poetry.group.cuda.dependencies]
+tensorflow = {extras = ["and-cuda"], version = "^2.19.0"}
+
+[tool.poetry.group.dev.dependencies]
 black = "^22.3.0"
 flake8 = "^4.0.1"
 isort = "^5.9.3"
