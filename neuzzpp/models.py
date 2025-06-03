@@ -95,7 +95,7 @@ def create_logits_model(model):
         A new model of shared input and weights as the original, but that outputs the logits
         before the last activation layer.
     """
-    return tf.keras.models.Model(inputs=model.input, outputs=model.get_layer("logits").output)
+    return tf.keras.models.Model(inputs=model.layers[0].input, outputs=model.get_layer("logits").output)
 
 
 def predict_coverage(model: tf.keras.models.Model, inputs: List[np.ndarray]) -> np.ndarray:
@@ -108,7 +108,7 @@ def predict_coverage(model: tf.keras.models.Model, inputs: List[np.ndarray]) -> 
         model: Keras model predicting coverage bitmap from program input.
         inputs: List or equivalent of non-normalized inputs.
     """
-    input_shape = model.input.shape[-1]
+    input_shape = model.input_shape[-1]
     inputs_preproc = tf.keras.preprocessing.sequence.pad_sequences(
         inputs, padding="post", dtype="float32", maxlen=input_shape
     )

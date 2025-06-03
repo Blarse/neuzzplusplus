@@ -200,14 +200,14 @@ def compute_one_mutation_info(
         * List of indices that would sort the gradients by magnitude.
         * List of gradient signs. The length of the two lists matches.
     """
-    input_dim = model.input.shape.as_list()[-1]
+    input_dim = model.input_shape[-1]
     seed = load_normalized_seeds([seed_name], max_len=input_dim)
     seed_len = min(get_seed_len(seed_name), input_dim)
     if n_keep_vals is None:
         n_keep_vals = seed_len
     else:
         n_keep_vals = min(n_keep_vals, seed_len)
-    target_edge = np.random.choice(model.output.shape.as_list()[-1])  # Random edge targeted
+    target_edge = np.random.choice(model.output_shape[-1])  # Random edge targeted
     sorting_index, gradient = compute_gradient(model, target_edge, seed, n_keep_vals, "sign")
     sorting_index_lst = [str(el) for el in sorting_index]
     gradient_lst = [str(int(el)) for el in gradient]
@@ -242,7 +242,7 @@ def compute_all_mutation_info(
     """
     grads_folder = seeds_path.parent / "grads"
     seed_list = list(seed for seed in seeds_path.glob("*") if seed.is_file())
-    input_dim = model.input.shape.as_list()[-1]
+    input_dim = model.input_shape[-1]
 
     # Determine how many mutations to generate
     if n_mutations is None:
@@ -409,7 +409,7 @@ def compute_mutations_success_all(
         save_path: Folder to create for storing coverage results for the computed mutations.
         n_iter: No. of iterations cf. Neuzz.
     """
-    n_edges = model.output.shape[-1]
+    n_edges = model.output_shape[-1]
     # Read all seeds and get all predictions
     seeds = read_seeds(seed_list)
 

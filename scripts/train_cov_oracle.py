@@ -109,11 +109,11 @@ def train_model(args: argparse.Namespace, seed_handler: SeedFolderHandler):
     # Fit model
     model.model.fit(
         training_generator,
-        steps_per_epoch=np.ceil(seed_handler.training_size / args.batch_size),
+        steps_per_epoch=int(np.ceil(seed_handler.training_size / args.batch_size)),
         validation_data=validation_generator,
         validation_steps=None
         if validation_generator is None
-        else np.ceil(seed_handler.val_size / args.batch_size),
+        else int(np.ceil(seed_handler.val_size / args.batch_size)),
         epochs=args.epochs,
         callbacks=callbacks,
         verbose=2,
@@ -126,7 +126,7 @@ def train_model(args: argparse.Namespace, seed_handler: SeedFolderHandler):
             *seed_handler.val_set, args.batch_size, seed_handler.max_file_size
         )
         preds_val = model.model.predict(
-            val_gen, steps=np.ceil(seed_handler.val_size / args.batch_size)
+            val_gen, steps=int(np.ceil(seed_handler.val_size / args.batch_size))
         )
         y_true = seed_handler.val_set[1]
         y_pred = preds_val > class_threshold
