@@ -1,3 +1,56 @@
+
+# !!! Fork disclaimer !!!
+
+Please read the original instructions below as well.
+
+This is my attempt to port neuzzplusplus to python 3.12 and tensorflow 2.19.0. The primary goal of this fork is to work in my setup, which is ALT Linux system with python 3.12 and Nvidia GPU.
+
+## Installation
+
+### Installing AFL++
+
+I use AFL++ from ALT Linux:
+```
+sudo apt-get install AFLplusplus
+```
+
+### Install Python dependencies
+
+I prefer using venv:
+```
+python3 -m venv ./venv
+. venv/bin/activate
+pip install -U pip
+pip install poetry
+poetry install --without dev --with cuda
+```
+
+### Build Neuzz++ custom mutator
+
+If AFL++ headers are in /usr/share/afl/include
+```
+make -C ./aflpp-plugins/
+```
+otherwise
+```
+make -C ./aflpp-plugins/ AFL_PATH=<afl-dir>
+```
+
+### Set environment variables
+
+Neuzz++ needs afl-showmap in $AFL_PATH/afl-showmap, that's why in my case it's /usr/bin
+```
+export AFL_PATH=/usr/bin/
+```
+
+At this point you are most likely in the neuzzplusplus repo root, so
+```
+export NEUZZPP_PATH=$PWD
+```
+should work.
+
+Egor Ignatov <egori@altlinux.org>
+
 # Neuzz++ - Neural program smoothing for fuzzing in AFL++
 
 Neuzz++ is an implementation of neural program smoothing for fuzzing as AFL++ custom mutator.
